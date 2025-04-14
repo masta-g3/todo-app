@@ -117,6 +117,38 @@ function App() {
       document.documentElement.classList.remove('dark')
     }
   }, [darkMode])
+  
+  // Set custom favicon
+  useEffect(() => {
+    // Create an SVG favicon that adapts to dark/light mode
+    const svgString = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+        <rect width="64" height="64" fill="${darkMode ? '#242424' : '#fdfdfa'}"/>
+        <rect x="16" y="20" width="32" height="6" rx="2" fill="${darkMode ? '#4b7cb3' : '#2e4057'}"/>
+        <rect x="16" y="30" width="24" height="6" rx="2" fill="${darkMode ? '#6b7275' : '#939b9f'}"/>
+        <rect x="16" y="40" width="28" height="6" rx="2" fill="${darkMode ? '#8a9a5b' : '#8a9a5b'}"/>
+      </svg>
+    `
+    
+    // Convert SVG to base64 data URL
+    const dataUrl = `data:image/svg+xml;base64,${btoa(svgString.trim())}`
+    
+    // Check if favicon already exists
+    let link = document.querySelector("link[rel*='icon']")
+    
+    // Create new link element if it doesn't exist
+    if (!link) {
+      link = document.createElement('link')
+      link.rel = 'icon'
+      document.head.appendChild(link)
+    }
+    
+    // Set the href of the link to our data URL
+    link.href = dataUrl
+    
+    // Also update the document title
+    document.title = 'Tasks | Minimal Todo App'
+  }, [darkMode])
 
   // Update current time every minute
   useEffect(() => {
