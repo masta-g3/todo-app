@@ -193,6 +193,18 @@ function App() {
       return todo
     }))
   }
+  
+  const updateTodo = (id, text) => {
+    setTodos(todos.map(todo => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          text
+        }
+      }
+      return todo
+    }))
+  }
 
   // Data export function for Settings
   const exportData = () => {
@@ -282,7 +294,8 @@ function App() {
         <TodoList 
           todos={todos} 
           toggleTodo={toggleTodo} 
-          addTodo={addTodo} 
+          addTodo={addTodo}
+          updateTodo={updateTodo} 
           categories={categories}
         />
       ) : activeTab === 'analytics' ? (

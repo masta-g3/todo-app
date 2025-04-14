@@ -1,13 +1,16 @@
 import { useState, useRef, useEffect } from 'react'
 import { format } from 'date-fns'
 
-const TodoList = ({ todos, toggleTodo, addTodo, categories }) => {
+const TodoList = ({ todos, toggleTodo, addTodo, updateTodo, categories }) => {
   const [newTodo, setNewTodo] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false)
   const [newCategory, setNewCategory] = useState('')
+  const [editingTodoId, setEditingTodoId] = useState(null)
+  const [editText, setEditText] = useState('')
   const inputRef = useRef(null)
   const newCategoryRef = useRef(null)
+  const editInputRef = useRef(null)
 
   // Focus input on mount
   useEffect(() => {
@@ -22,6 +25,13 @@ const TodoList = ({ todos, toggleTodo, addTodo, categories }) => {
       newCategoryRef.current.focus()
     }
   }, [isAddingNewCategory])
+  
+  // Focus edit input when editing a task
+  useEffect(() => {
+    if (editingTodoId && editInputRef.current) {
+      editInputRef.current.focus()
+    }
+  }, [editingTodoId])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -122,15 +132,69 @@ const TodoList = ({ todos, toggleTodo, addTodo, categories }) => {
               id={`todo-${todo.id}`}
             />
             <div className="todo-content">
-              <label htmlFor={`todo-${todo.id}`} className="todo-text">
-                {todo.text}
-              </label>
+              {editingTodoId === todo.id ? (
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    if (editText.trim()) {
+                      updateTodo(todo.id, editText.trim())
+                      setEditingTodoId(null)
+                    }
+                  }}
+                  className="todo-edit-form"
+                >
+                  <input
+                    ref={editInputRef}
+                    type="text"
+                    value={editText}
+                    onChange={e => setEditText(e.target.value)}
+                    onBlur={() => {
+                      if (editText.trim()) {
+                        updateTodo(todo.id, editText.trim())
+                      }
+                      setEditingTodoId(null)
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === 'Escape') {
+                        setEditingTodoId(null)
+                      }
+                    }}
+                    className="todo-edit-input"
+                  />
+                </form>
+              ) : (
+                <label 
+                  htmlFor={`todo-${todo.id}`} 
+                  className="todo-text"
+                  onDoubleClick={() => {
+                    setEditingTodoId(todo.id)
+                    setEditText(todo.text)
+                  }}
+                >
+                  {todo.text}
+                </label>
+              )}
               <div className="todo-meta">
                 <span className="todo-date">
                   {getRelativeTime(todo.createdAt)}
                 </span>
+                
                 {todo.category && (
                   <span className="todo-tag">{todo.category}</span>
+                )}
+                
+                {!editingTodoId && !todo.completed && (
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setEditingTodoId(todo.id)
+                      setEditText(todo.text)
+                    }}
+                    className="todo-edit-button"
+                    title="Edit task"
+                  >
+                    ✎
+                  </button>
                 )}
               </div>
             </div>
