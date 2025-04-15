@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { format } from 'date-fns'
 
-const TodoList = ({ todos, toggleTodo, addTodo, updateTodo, categories }) => {
+const TodoList = ({ todos, toggleTodo, addTodo, updateTodo, deleteTodo, categories }) => {
   const [newTodo, setNewTodo] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false)
@@ -183,18 +183,34 @@ const TodoList = ({ todos, toggleTodo, addTodo, updateTodo, categories }) => {
                   <span className="todo-tag">{todo.category}</span>
                 )}
                 
-                {!editingTodoId && !todo.completed && (
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setEditingTodoId(todo.id)
-                      setEditText(todo.text)
-                    }}
-                    className="todo-edit-button"
-                    title="Edit task"
-                  >
-                    ✎
-                  </button>
+                {!editingTodoId && (
+                  <>
+                    {!todo.completed && (
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setEditingTodoId(todo.id)
+                          setEditText(todo.text)
+                        }}
+                        className="todo-edit-button"
+                        title="Edit task"
+                      >
+                        ✎
+                      </button>
+                    )}
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        if (confirm('Are you sure you want to delete this task?')) {
+                          deleteTodo(todo.id)
+                        }
+                      }}
+                      className="todo-delete-button"
+                      title="Delete task"
+                    >
+                      ×
+                    </button>
+                  </>
                 )}
               </div>
             </div>

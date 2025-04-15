@@ -378,7 +378,8 @@ body {
   position: relative;
 }
 
-.todo-edit-button {
+.todo-edit-button,
+.todo-delete-button {
   font-size: 0.85rem;
   background: none;
   border: none;
@@ -390,13 +391,23 @@ body {
   transition: opacity 0.2s ease, color 0.2s ease;
 }
 
-.todo-item:hover .todo-edit-button {
+.todo-item:hover .todo-edit-button,
+.todo-item:hover .todo-delete-button {
   opacity: 0.5;
 }
 
 .todo-edit-button:hover {
   opacity: 1 !important;
   color: var(--color-primary);
+}
+
+.todo-delete-button {
+  font-size: 1rem;
+}
+
+.todo-delete-button:hover {
+  opacity: 1 !important;
+  color: var(--color-accent);
 }
 
 .todo-date {

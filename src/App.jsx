@@ -205,6 +205,10 @@ function App() {
       return todo
     }))
   }
+  
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id))
+  }
 
   // Data export function for Settings
   const exportData = () => {
@@ -295,7 +299,8 @@ function App() {
           todos={todos} 
           toggleTodo={toggleTodo} 
           addTodo={addTodo}
-          updateTodo={updateTodo} 
+          updateTodo={updateTodo}
+          deleteTodo={deleteTodo}
           categories={categories}
         />
       ) : activeTab === 'analytics' ? (
