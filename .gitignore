@@ -3,12 +3,16 @@ node_modules/
 /.pnp
 .pnp.js
 
+# Vite cache
+/.vite/
+
 # Production
 /build
 /dist
 
 # Misc
 .DS_Store
+Thumbs.db
 .env
 
 # Logs

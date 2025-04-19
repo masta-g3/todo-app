@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { format } from 'date-fns'
+import { arrayMove } from '@dnd-kit/sortable'
 import TodoList from './components/TodoList'
 import Analytics from './components/Analytics'
 import Settings from './components/Settings'
@@ -251,9 +252,24 @@ function App() {
   const formattedDate = format(currentTime, 'EEEE, MMMM d')
   const formattedTime = format(currentTime, 'h:mm a')
 
+  // New function to handle drag end event
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+
+    if (active.id !== over.id) {
+      setTodos((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id)
+        const newIndex = items.findIndex((item) => item.id === over.id)
+        
+        // Use arrayMove to update the order
+        return arrayMove(items, oldIndex, newIndex)
+      })
+    }
+  }
+
   return (
-    <div className="app">
-      <header className="header">
+    <div className="app"> 
+      <header className="header"> 
         <div className="header-top">
           <h1>Tasks</h1>
           <div className="header-actions">
@@ -294,27 +310,30 @@ function App() {
         </div>
       </header>
       
+        {statusMessage && <div className="status-message">{statusMessage}</div>}
+      
       {activeTab === 'todos' ? (
-        <TodoList 
-          todos={todos} 
-          toggleTodo={toggleTodo} 
-          addTodo={addTodo}
-          updateTodo={updateTodo}
-          deleteTodo={deleteTodo}
-          categories={categories}
-        />
+          <TodoList 
+            todos={todos} 
+            toggleTodo={toggleTodo} 
+            addTodo={addTodo} 
+            updateTodo={updateTodo}
+            deleteTodo={deleteTodo}
+            categories={categories}
+            handleDragEnd={handleDragEnd}
+          />
       ) : activeTab === 'analytics' ? (
         <Analytics todos={todos} />
       ) : (
-        <Settings 
-          darkMode={darkMode}
-          toggleDarkMode={toggleDarkMode}
-          exportData={exportData}
-          importData={importData}
-          saveToLocalStorage={saveToLocalStorage}
-          loadFromLocalStorage={loadFromLocalStorage}
-        />
-      )}
+          <Settings 
+            darkMode={darkMode} 
+            toggleDarkMode={toggleDarkMode} 
+            exportData={exportData}
+            importData={importData}
+            saveToLocalStorage={saveToLocalStorage}
+            loadFromLocalStorage={loadFromLocalStorage}
+          />
+        )}
       
       <footer className="footer">
         <div className="counts">
