@@ -18,7 +18,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 
 // New component for individual sortable todo items
-const SortableTodoItem = ({ todo, toggleTodo, updateTodo, deleteTodo, setEditingTodoId, setEditText, editingTodoId, editText, editInputRef, getRelativeTime, startPomodoro }) => {
+const SortableTodoItem = ({ todo, toggleTodo, updateTodo, deleteTodo, setEditingTodoId, setEditText, editingTodoId, editText, editInputRef, getRelativeTime, startPomodoro, categories }) => {
   const { 
     attributes, 
     listeners, 
@@ -327,6 +327,7 @@ const TodoList = ({ todos, toggleTodo, addTodo, updateTodo, deleteTodo, categori
                 editInputRef={editInputRef}
                 getRelativeTime={getRelativeTime}
                 startPomodoro={startPomodoro}
+                categories={categories}
               />
             ))}
             {todos.length === 0 && (
