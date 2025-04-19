@@ -440,19 +440,22 @@ body {
 }
 
 .todo-tag {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  padding: calc(var(--grid-unit) * 0.5) calc(var(--grid-unit) * 1);
   background-color: var(--color-secondary);
-  color: var(--color-paper);
-  letter-spacing: 0.02em;
-  transition: opacity 0.2s ease;
+  color: white;
+  padding: calc(var(--grid-unit) * 0.25) calc(var(--grid-unit) * 0.75);
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  margin-left: calc(var(--grid-unit) * 1);
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .todo-tag:hover {
   opacity: 0.9;
 }
-
 
 .todo-item.empty {
   color: var(--color-text-secondary);

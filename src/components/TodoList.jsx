@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { format } from 'date-fns'
+import { getTagColor } from '../utils/colorUtils'
 import { 
   DndContext, 
   closestCenter, 
@@ -95,7 +96,12 @@ const SortableTodoItem = ({ todo, toggleTodo, updateTodo, deleteTodo, setEditing
           </span>
           
           {todo.category && (
-            <span className="todo-tag">{todo.category}</span>
+            <span 
+              className="todo-tag"
+              style={{ backgroundColor: getTagColor(todo.category, categories) }}
+            >
+              {todo.category}
+            </span>
           )}
           
           {!editingTodoId && (

@@ -323,7 +323,7 @@ function App() {
             handleDragEnd={handleDragEnd}
           />
       ) : activeTab === 'analytics' ? (
-        <Analytics todos={todos} />
+        <Analytics todos={todos} categories={categories} />
       ) : (
           <Settings 
             darkMode={darkMode} 

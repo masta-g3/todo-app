@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import * as d3 from 'd3'
 import { format, parseISO, differenceInDays, differenceInHours } from 'date-fns'
+import { getTagColor } from '../utils/colorUtils'
 
-const Analytics = ({ todos }) => {
+const Analytics = ({ todos, categories }) => {
   const completionTimeChartRef = useRef(null)
   const categoryDistributionRef = useRef(null)
   const completionRateRef = useRef(null)
@@ -172,7 +173,7 @@ const Analytics = ({ todos }) => {
       .attr('height', y.bandwidth())
       .attr('x', 0)
       .attr('width', d => x(d.count))
-      .attr('fill', 'var(--color-secondary)')
+      .attr('fill', d => getTagColor(d.category, categories))
       .attr('opacity', 0.85)
 
     // Bar labels
